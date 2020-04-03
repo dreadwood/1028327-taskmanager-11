@@ -5,7 +5,11 @@ module.exports = {
   entry: './src/main.js', // точка входа приложения
   output: { // настройки выходного файла
     filename: 'bundle.js',
-    path: path.join(__dirname, 'public'),
+    path: path.join(__dirname, 'public')
   },
   devtool: 'source-map',
+  devServer: { // настройки сервера
+    contentBase: path.join(__dirname, 'public'),
+    watchContentBase: true // автоматическая перезагрузка страницы
+  }
 };
