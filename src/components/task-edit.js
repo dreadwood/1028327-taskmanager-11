@@ -17,7 +17,7 @@ const createColorsMarkup = (colors, currentColor) => {
         class="card__color card__color--${color}"
         >${color}</label
       >`
-    )
+    );
   }).join(`\n`);
 };
 
