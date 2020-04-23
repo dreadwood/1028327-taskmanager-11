@@ -1,3 +1,5 @@
+import {createElement} from "../utils.js";
+
 const createSiteMenuMarkup = (menuItem) => {
   const {type, name} = menuItem;
   return (
@@ -13,7 +15,7 @@ const createSiteMenuMarkup = (menuItem) => {
   );
 };
 
-export const createSiteMenuTemplate = () => {
+const createSiteMenuTemplate = () => {
   const menuItems = [
     {
       type: `new-task`,
@@ -37,3 +39,25 @@ export const createSiteMenuTemplate = () => {
     </section>`
   );
 };
+
+export class SiteMenu {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createSiteMenuTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,3 +1,5 @@
+import {createElement} from "../utils.js";
+
 const createSortingMarkup = (sorting) => {
   const {type, name} = sorting;
   return (
@@ -5,7 +7,7 @@ const createSortingMarkup = (sorting) => {
   );
 };
 
-export const createSortingTemplate = () => {
+const createSortingTemplate = () => {
   const sortTypes = [
     {
       type: `default`,
@@ -28,3 +30,25 @@ export const createSortingTemplate = () => {
     </div>`
   );
 };
+
+export class sorting {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createSortingTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
