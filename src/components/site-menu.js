@@ -40,7 +40,7 @@ const createSiteMenuTemplate = () => {
   );
 };
 
-export class SiteMenu {
+export default class SiteMenu {
   constructor() {
     this._element = null;
   }
