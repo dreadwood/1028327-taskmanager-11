@@ -1,7 +1,7 @@
 import {createElement} from '../../utils/utils.js';
 
 const createSiteMenuMarkup = (menuItem) => {
-  const {type, name} = menuItem;
+  const [type, name] = menuItem;
   return (
     `<input
       type="radio"
@@ -16,26 +16,17 @@ const createSiteMenuMarkup = (menuItem) => {
 };
 
 const createSiteMenuTemplate = () => {
-  const menuItems = [
-    {
-      type: `new-task`,
-      name: `+ ADD NEW TASK`
-    },
-    {
-      type: `task`,
-      name: `TASKS`
-    },
-    {
-      type: `statistic`,
-      name: `STATISTICS`
-    }
-  ];
+  const menuItems = new Map([
+    [`new-task`, `+ ADD NEW TASK`],
+    [`task`, `TASKS`],
+    [`statistic`, `STATISTICS`],
+  ]);
 
-  const siteMenuMarkup = menuItems.map((it) => createSiteMenuMarkup(it)).join(`\n`);
+  const siteMenuMarkup = () => [...menuItems].map((it) => createSiteMenuMarkup(it)).join(`\n`);
 
   return (
     `<section class="control__btn-wrap">
-      ${siteMenuMarkup}
+      ${siteMenuMarkup()}
     </section>`
   );
 };
