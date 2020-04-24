@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import {createElement} from '../utils.js';
 
 const createSiteMenuMarkup = (menuItem) => {
   const {type, name} = menuItem;
@@ -9,7 +9,7 @@ const createSiteMenuMarkup = (menuItem) => {
       id="control__${type}"
       class="control__input visually-hidden"
     />
-    <label for="control__${type}" class="control__label ${type === `new-task` ? `control__label--new-task` : ``}control__label--new-task">
+    <label for="control__${type}" class="control__label ${type === `new-task` ? `control__label--new-task` : ``}">
       ${name}
     </label>`
   );
