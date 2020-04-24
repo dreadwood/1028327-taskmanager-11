@@ -1,7 +1,7 @@
 import {createElement} from '../../utils/utils.js';
 
 const createSortingMarkup = (sorting) => {
-  const {type, name} = sorting;
+  const [type, name] = sorting;
   return (
     `<a href="#" class="board__filter" data-sort-type="${type}">${name}</a>`
   );
