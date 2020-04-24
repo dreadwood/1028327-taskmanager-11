@@ -1,6 +1,6 @@
 const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`,
+  AFTER_BEGIN: `afterbegin`,
+  BEFOR_EEND: `beforeend`,
 };
 
 const castTimeFormat = (value) => {
@@ -21,12 +21,12 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
-const render = (container, element, place) => {
+const render = (container, element, place = RenderPosition.BEFOR_EEND) => {
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case RenderPosition.AFTER_BEGIN:
       container.prepend(element);
       break;
-    case RenderPosition.BEFOREEND:
+    case RenderPosition.BEFOR_EEND:
       container.append(element);
       break;
   }
