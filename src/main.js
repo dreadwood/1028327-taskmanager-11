@@ -1,14 +1,14 @@
-import SiteMenu from './components/site-menu.js';
-import Filter from './components/filter.js';
-import Board from './components/board.js';
-import Sorting from './components/sorting.js';
-import Task from './components/task.js';
-import TasksContainer from './components/tasks-container.js';
-import TaskEdit from './components/task-edit.js';
-import LoadMore from './components/load-more.js';
+import SiteMenu from './components/menu/site-menu.js';
+import Filter from './components/filter/filter.js';
+import Board from './components/board/board.js';
+import Sorting from './components/filter/sorting.js';
+import Task from './components/task/task.js';
+import TasksContainer from './components/task/tasks-container.js';
+import TaskEdit from './components/task/task-edit.js';
+import LoadMore from './components/board/load-more.js';
 import {generateTasks} from './mock/task.js';
 import {generateFilters} from './mock/filter.js';
-import {render, RenderPosition} from './utils.js';
+import {render, RenderPosition} from './utils/utils.js';
 
 const TASK_COUNT = 20;
 const SHOWING_TASKS_COUNT_ON_START = 8;

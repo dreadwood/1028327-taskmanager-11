@@ -1,4 +1,4 @@
-import {COLORS} from "../const.js";
+import {COLORS} from '../utils/const.js';
 
 const DescriptionItems = [
   `Изучить теорию`,
@@ -60,4 +60,4 @@ const generateTasks = (count) => {
     .map(generationTask);
 };
 
-export {generationTask, generateTasks};
+export {generateTasks};
