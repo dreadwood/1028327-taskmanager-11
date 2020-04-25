@@ -16,16 +16,6 @@ const createFilterMarkup = (filter, isChecked) => {
   );
 };
 
-const createFilterTemplate = (filters) => {
-  const filterMarkup = filters.map((it, i) => createFilterMarkup(it, i === 0)).join(`\n`);
-
-  return (
-    `<section class="main__filter filter container">
-    ${filterMarkup}
-    </section>`
-  );
-};
-
 export default class Filter {
   constructor(filters) {
     this._filters = filters;
@@ -33,7 +23,13 @@ export default class Filter {
   }
 
   getTemplate() {
-    return createFilterTemplate(this._filters);
+    const filterMarkup = this._filters.map((it, i) => createFilterMarkup(it, i === 0)).join(`\n`);
+
+    return (
+      `<section class="main__filter filter container">
+        ${filterMarkup}
+      </section>`
+    );
   }
 
   getElement() {
