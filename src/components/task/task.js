@@ -1,17 +1,6 @@
 import {MONTH_NAMES} from '../../utils/const.js';
 import {formatTime, createElement} from '../../utils/utils.js';
-
-const getDeadlineClass = (dueDate) => {
-  return dueDate instanceof Date && dueDate < Date.now()
-    ? `card--deadline`
-    : ``;
-};
-
-const getRepeatClass = (repeatingDays) => {
-  return Object.values(repeatingDays).some(Boolean)
-    ? `card--repeat`
-    : ``;
-};
+import {getDeadlineClass, getRepeatClass} from '../../utils/task-utils.js';
 
 export default class Task {
   constructor(task) {

@@ -1,5 +1,6 @@
 import {MONTH_NAMES, DAYS, COLORS} from '../../utils/const.js';
 import {formatTime, createElement} from '../../utils/utils.js';
+import {getDeadlineClass, getRepeatClass} from '../../utils/task-utils.js';
 
 const createColorsMarkup = (colors, currentColor) => {
   return colors.map((color, index) => {
@@ -38,18 +39,6 @@ const createRepeatingDaysMarkup = (days, repeatingDays) => {
       >`
     );
   }).join(`\n`);
-};
-
-const getDeadlineClass = (dueDate) => {
-  return dueDate instanceof Date && dueDate < Date.now()
-    ? `card--deadline`
-    : ``;
-};
-
-const getRepeatClass = (repeatingDays) => {
-  return Object.values(repeatingDays).some(Boolean)
-    ? `card--repeat`
-    : ``;
 };
 
 export default class TaskEdit {
