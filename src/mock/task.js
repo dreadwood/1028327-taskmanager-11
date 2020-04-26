@@ -1,13 +1,14 @@
-import {COLORS} from "../const.js";
+import {COLORS} from '../utils/const.js';
+import {getRandomDate, getRandomArrayItems} from '../utils/utils.js';
 
-const DescriptionItems = [
+const TASK_DESCRIPTIONS = [
   `Изучить теорию`,
   `Сделать домашку`,
   `Пройти интенсив на соточку`,
   `Погладить кота`
 ];
 
-const DefaultRepeatingDays = {
+const DEFAULT_REPEATING_DAYS = {
   mo: false,
   tu: false,
   we: false,
@@ -17,38 +18,18 @@ const DefaultRepeatingDays = {
   su: false,
 };
 
-const getRandomIntegerNumber = (min, max) => {
-  return min + Math.floor(Math.random() * (max - min));
-};
-
-const getRandomArrayItems = (array) => {
-  const randomIndex = getRandomIntegerNumber(0, array.length);
-
-  return array[randomIndex];
-};
-
-const generateRepeatingDays = () => {
-  return Object.assign({}, DefaultRepeatingDays, {mo: Math.random() > 0.5});
-};
-
-const getRandomDate = () => {
-  const targetDate = new Date();
-  const sign = Math.random() > 0.5 ? 1 : -1;
-  const diffValue = sign * getRandomIntegerNumber(0, 8);
-
-  targetDate.setDate(targetDate.getDate() + diffValue);
-
-  return targetDate;
+const getRandomRepeating = () => {
+  return Object.assign({}, DEFAULT_REPEATING_DAYS, {mo: Math.random() > 0.5});
 };
 
 const generationTask = () => {
   const dueDate = Math.random() > 0.5 ? null : getRandomDate();
 
   return {
-    description: getRandomArrayItems(DescriptionItems),
+    description: getRandomArrayItems(TASK_DESCRIPTIONS),
     dueDate,
     color: getRandomArrayItems(COLORS),
-    repeatingDays: dueDate ? DefaultRepeatingDays : generateRepeatingDays(),
+    repeatingDays: dueDate ? DEFAULT_REPEATING_DAYS : getRandomRepeating(),
     isArchive: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,
   };
@@ -60,4 +41,4 @@ const generateTasks = (count) => {
     .map(generationTask);
 };
 
-export {generationTask, generateTasks};
+export {generateTasks};

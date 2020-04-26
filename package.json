@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "eslint": "eslint src/**/*.js",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --open 'Google Chrome'",
     "test": "npm run eslint"
   },
   "devDependencies": {
