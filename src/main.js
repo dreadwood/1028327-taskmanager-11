@@ -27,7 +27,7 @@ const renderTask = (taskListElement, task) => {
   const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
   editButton.addEventListener(`click`, onEditButtonClick);
 
-  const taskEditComponent = new TaskEdit(tasks[0]);
+  const taskEditComponent = new TaskEdit(task);
   const editForm = taskEditComponent.getElement().querySelector(`.card__save`);
   editForm.addEventListener(`click`, onEditFormClick);
 
