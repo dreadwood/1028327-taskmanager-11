@@ -6,6 +6,7 @@ import Task from './components/task/task.js';
 import TasksContainer from './components/task/tasks-container.js';
 import TaskEdit from './components/task/task-edit.js';
 import LoadMore from './components/board/load-more.js';
+import NoTasks from './components/task/no-tasks.js';
 import {generateTasks} from './mock/task.js';
 import {generateFilters} from './mock/filter.js';
 import {render} from './utils/utils.js';
@@ -53,6 +54,12 @@ const renderTask = (taskListElement, task) => {
 };
 
 const renderBoard = (bordCompanent, tasks) => {
+  const isAllTasksArhived = tasks.every((task) => task.isArhive);
+  if (isAllTasksArhived) {
+    render(bordCompanent.getElement(), new NoTasks().getElement());
+    return;
+  }
+
   render(bordCompanent.getElement(), new Sorting().getElement());
   render(bordCompanent.getElement(), new TasksContainer().getElement());
 
