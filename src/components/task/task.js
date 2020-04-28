@@ -1,11 +1,16 @@
 import {MONTH_NAMES} from '../../utils/const.js';
-import {formatTime, createElement} from '../../utils/utils.js';
-import {getDeadlineClass, getRepeatClass} from '../../utils/task-utils.js';
+import {formatTime, createElement, getRepeatClass} from '../../utils/utils.js';
 
 export default class Task {
   constructor(task) {
     this._task = task;
     this._element = null;
+  }
+
+  _getDeadlineClass(dueDate) {
+    return dueDate instanceof Date && dueDate < Date.now()
+      ? `card--deadline`
+      : ``;
   }
 
   getTemplate() {
@@ -18,7 +23,7 @@ export default class Task {
     const favoriteButtonInactiveClass = isFavorite ? `` : `card__btn--disabled`;
 
     return (
-      `<article class="card card--${color} ${getRepeatClass(repeatingDays)} ${getDeadlineClass(dueDate)}">
+      `<article class="card card--${color} ${getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
         <div class="card__form">
           <div class="card__inner">
             <div class="card__control">
