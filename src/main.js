@@ -6,6 +6,7 @@ import Task from './components/task/task.js';
 import TasksContainer from './components/task/tasks-container.js';
 import TaskEdit from './components/task/task-edit.js';
 import LoadMore from './components/board/load-more.js';
+import NoTasks from './components/task/no-tasks.js';
 import {generateTasks} from './mock/task.js';
 import {generateFilters} from './mock/filter.js';
 import {render} from './utils/utils.js';
@@ -15,26 +16,50 @@ const SHOWING_TASKS_COUNT_ON_START = 8;
 const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
 
 const renderTask = (taskListElement, task) => {
-  const onEditButtonClick = () => {
+  const replaceTaskToEdit = () => {
     taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
   };
 
-  const onEditFormClick = () => {
+  const replaceEditToTask = () => {
     taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+  };
+
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      evt.preventDefault();
+      replaceEditToTask();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
   };
 
   const taskComponent = new Task(task);
   const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
-  editButton.addEventListener(`click`, onEditButtonClick);
+  editButton.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    replaceTaskToEdit();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
 
-  const taskEditComponent = new TaskEdit(tasks[0]);
+  const taskEditComponent = new TaskEdit(task);
   const editForm = taskEditComponent.getElement().querySelector(`.card__save`);
-  editForm.addEventListener(`click`, onEditFormClick);
+  editForm.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    replaceEditToTask();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
 
   render(taskListElement, taskComponent.getElement());
 };
 
 const renderBoard = (bordCompanent, tasks) => {
+  const isAllTasksArhived = tasks.every((task) => task.isArhive);
+  if (isAllTasksArhived) {
+    render(bordCompanent.getElement(), new NoTasks().getElement());
+    return;
+  }
+
   render(bordCompanent.getElement(), new Sorting().getElement());
   render(bordCompanent.getElement(), new TasksContainer().getElement());
 

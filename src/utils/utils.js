@@ -52,4 +52,10 @@ const getRandomDate = () => {
   return targetDate;
 };
 
-export {formatTime, createElement, render, RenderPosition, getRandomIntegerNumber, getRandomArrayItems, getRandomDate};
+const getRepeatClass = (repeatingDays) => {
+  return Object.values(repeatingDays).some(Boolean)
+    ? `card--repeat`
+    : ``;
+};
+
+export {formatTime, createElement, render, RenderPosition, getRandomIntegerNumber, getRandomArrayItems, getRandomDate, getRepeatClass};

@@ -1,50 +1,55 @@
 import {MONTH_NAMES, DAYS, COLORS} from '../../utils/const.js';
-import {formatTime, createElement} from '../../utils/utils.js';
-import {getDeadlineClass, getRepeatClass} from '../../utils/task-utils.js';
-
-const createColorsMarkup = (colors, currentColor) => {
-  return colors.map((color, index) => {
-    return (
-      `<input
-        type="radio"
-        id="color-${color}-${index}"
-        class="card__color-input card__color-input--${color} visually-hidden"
-        name="color"
-        value="${color}"
-        ${currentColor === color ? `checked` : ``}
-      />
-      <label
-        for="color-${color}-${index}"
-        class="card__color card__color--${color}"
-        >${color}</label
-      >`
-    );
-  }).join(`\n`);
-};
-
-const createRepeatingDaysMarkup = (days, repeatingDays) => {
-  return days.map((day, index) => {
-    const isChecked = repeatingDays[day];
-    return (
-      `<input
-        class="visually-hidden card__repeat-day-input"
-        type="checkbox"
-        id="repeat-${day}-${index}"
-        name="repeat"
-        value="${day}"
-        ${isChecked ? `checked` : ``}
-      />
-      <label class="card__repeat-day" for="repeat-${day}-${index}"
-        >${day}</label
-      >`
-    );
-  }).join(`\n`);
-};
+import {formatTime, createElement, getRepeatClass} from '../../utils/utils.js';
 
 export default class TaskEdit {
   constructor(task) {
     this._task = task;
     this._element = null;
+  }
+
+  _getDeadlineClass(dueDate) {
+    return dueDate instanceof Date && dueDate < Date.now()
+      ? `card--deadline`
+      : ``;
+  }
+
+  _createColorsMarkup(colors, currentColor) {
+    return colors.map((color, index) => {
+      return (
+        `<input
+          type="radio"
+          id="color-${color}-${index}"
+          class="card__color-input card__color-input--${color} visually-hidden"
+          name="color"
+          value="${color}"
+          ${currentColor === color ? `checked` : ``}
+        />
+        <label
+          for="color-${color}-${index}"
+          class="card__color card__color--${color}"
+          >${color}</label
+        >`
+      );
+    }).join(`\n`);
+  }
+
+  _createRepeatingDaysMarkup(days, repeatingDays) {
+    return days.map((day, index) => {
+      const isChecked = repeatingDays[day];
+      return (
+        `<input
+          class="visually-hidden card__repeat-day-input"
+          type="checkbox"
+          id="repeat-${day}-${index}"
+          name="repeat"
+          value="${day}"
+          ${isChecked ? `checked` : ``}
+        />
+        <label class="card__repeat-day" for="repeat-${day}-${index}"
+          >${day}</label
+        >`
+      );
+    }).join(`\n`);
   }
 
   getTemplate() {
@@ -54,11 +59,11 @@ export default class TaskEdit {
     const date = isDateShowing ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
     const time = isDateShowing ? formatTime(dueDate) : ``;
     const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
-    const colorsMarkup = createColorsMarkup(COLORS, color);
-    const repeatingDaysMarkup = createRepeatingDaysMarkup(DAYS, repeatingDays);
+    const colorsMarkup = this._createColorsMarkup(COLORS, color);
+    const repeatingDaysMarkup = this._createRepeatingDaysMarkup(DAYS, repeatingDays);
 
     return (
-      `<article class="card card--edit card--${color} ${getRepeatClass(repeatingDays)} ${getDeadlineClass(dueDate)}">
+      `<article class="card card--edit card--${color} ${getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
         <form class="card__form" method="get">
           <div class="card__inner">
             <div class="card__color-bar">

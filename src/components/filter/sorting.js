@@ -6,20 +6,20 @@ const sortTypes = new Map([
   [`date-down`, `SORT BY DATE down`],
 ]);
 
-const createSortingMarkup = (sorting) => {
-  const [type, name] = sorting;
-  return (
-    `<a href="#" class="board__filter" data-sort-type="${type}">${name}</a>`
-  );
-};
-
 export default class sorting {
   constructor() {
     this._element = null;
   }
 
+  _createSortingMarkup(sorting) {
+    const [type, name] = sorting;
+    return (
+      `<a href="#" class="board__filter" data-sort-type="${type}">${name}</a>`
+    );
+  }
+
   getTemplate() {
-    const sortingMarkup = () => [...sortTypes].map((it) => createSortingMarkup(it)).join(`\n`);
+    const sortingMarkup = () => [...sortTypes].map((it) => this._createSortingMarkup(it)).join(`\n`);
 
     return (
       `<div class="board__filter-list">

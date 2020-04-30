@@ -6,28 +6,28 @@ const menuItems = new Map([
   [`statistic`, `STATISTICS`],
 ]);
 
-const createSiteMenuMarkup = (menuItem) => {
-  const [type, name] = menuItem;
-  return (
-    `<input
-      type="radio"
-      name="control"
-      id="control__${type}"
-      class="control__input visually-hidden"
-    />
-    <label for="control__${type}" class="control__label ${type === `new-task` ? `control__label--new-task` : ``}">
-      ${name}
-    </label>`
-  );
-};
-
 export default class SiteMenu {
   constructor() {
     this._element = null;
   }
 
+  _createSiteMenuMarkup(menuItem) {
+    const [type, name] = menuItem;
+    return (
+      `<input
+        type="radio"
+        name="control"
+        id="control__${type}"
+        class="control__input visually-hidden"
+      />
+      <label for="control__${type}" class="control__label ${type === `new-task` ? `control__label--new-task` : ``}">
+        ${name}
+      </label>`
+    );
+  }
+
   getTemplate() {
-    const siteMenuMarkup = () => [...menuItems].map((it) => createSiteMenuMarkup(it)).join(`\n`);
+    const siteMenuMarkup = () => [...menuItems].map((it) => this._createSiteMenuMarkup(it)).join(`\n`);
 
     return (
       `<section class="control__btn-wrap">
