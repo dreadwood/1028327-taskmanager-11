@@ -1,5 +1,5 @@
 import {COLORS} from '../utils/const.js';
-import {getRandomDate, getRandomArrayItems} from '../utils/utils.js';
+import {getRandomDate, getRandomArrayItems} from '../utils/common.js';
 
 const TASK_DESCRIPTIONS = [
   `Изучить теорию`,

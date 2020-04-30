@@ -1,5 +1,5 @@
 import {MONTH_NAMES, DAYS, COLORS} from '../../utils/const.js';
-import {formatTime, getRepeatClass} from '../../utils/utils.js';
+import {formatTime, getRepeatClass} from '../../utils/common.js';
 import AbstractComponent from '../abstract-component.js';
 
 
@@ -53,6 +53,10 @@ export default class TaskEdit extends AbstractComponent {
         >`
       );
     }).join(`\n`);
+  }
+
+  setSubmitHandler(handler) {
+    this.getElement().querySelector(`form`).addEventListener(`submit`, handler);
   }
 
   getTemplate() {

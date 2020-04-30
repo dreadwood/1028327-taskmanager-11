@@ -1,8 +1,3 @@
-const RenderPosition = {
-  AFTER_BEGIN: `afterbegin`,
-  BEFOR_EEND: `beforeend`,
-};
-
 const castTimeFormat = (value) => {
   return value < 10 ? `0${value}` : `${value}`;
 };
@@ -12,24 +7,6 @@ const formatTime = (date) => {
   const minutes = castTimeFormat(date.getMinutes());
 
   return `${hours}:${minutes}`;
-};
-
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
-};
-
-const render = (container, element, place = RenderPosition.BEFOR_EEND) => {
-  switch (place) {
-    case RenderPosition.AFTER_BEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOR_EEND:
-      container.append(element);
-      break;
-  }
 };
 
 const getRandomSign = () => Math.random() > 0.5 ? 1 : -1;
@@ -58,4 +35,4 @@ const getRepeatClass = (repeatingDays) => {
     : ``;
 };
 
-export {formatTime, createElement, render, RenderPosition, getRandomIntegerNumber, getRandomArrayItems, getRandomDate, getRepeatClass};
+export {formatTime, getRandomIntegerNumber, getRandomArrayItems, getRandomDate, getRepeatClass};

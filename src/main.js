@@ -9,7 +9,7 @@ import LoadMore from './components/board/load-more.js';
 import NoTasks from './components/task/no-tasks.js';
 import {generateTasks} from './mock/task.js';
 import {generateFilters} from './mock/filter.js';
-import {render} from './utils/utils.js';
+import {render, replace, remove} from './utils/render.js';
 
 const TASK_COUNT = 20;
 const SHOWING_TASKS_COUNT_ON_START = 8;
@@ -17,11 +17,11 @@ const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
 
 const renderTask = (taskListElement, task) => {
   const replaceTaskToEdit = () => {
-    taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+    replace(taskEditComponent, taskComponent);
   };
 
   const replaceEditToTask = () => {
-    taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+    replace(taskComponent, taskEditComponent);
   };
 
   const onEscKeyDown = (evt) => {
@@ -35,33 +35,31 @@ const renderTask = (taskListElement, task) => {
   };
 
   const taskComponent = new Task(task);
-  const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
-  editButton.addEventListener(`click`, (evt) => {
+  taskComponent.setEditButtonClickHandler((evt) => {
     evt.preventDefault();
     replaceTaskToEdit();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   const taskEditComponent = new TaskEdit(task);
-  const editForm = taskEditComponent.getElement().querySelector(`.card__save`);
-  editForm.addEventListener(`click`, (evt) => {
+  taskEditComponent.setSubmitHandler((evt) => {
     evt.preventDefault();
     replaceEditToTask();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  render(taskListElement, taskComponent.getElement());
+  render(taskListElement, taskComponent);
 };
 
 const renderBoard = (bordCompanent, tasks) => {
   const isAllTasksArhived = tasks.every((task) => task.isArhive);
   if (isAllTasksArhived) {
-    render(bordCompanent.getElement(), new NoTasks().getElement());
+    render(bordCompanent.getElement(), new NoTasks());
     return;
   }
 
-  render(bordCompanent.getElement(), new Sorting().getElement());
-  render(bordCompanent.getElement(), new TasksContainer().getElement());
+  render(bordCompanent.getElement(), new Sorting());
+  render(bordCompanent.getElement(), new TasksContainer());
 
   const taskListElement = bordCompanent.getElement().querySelector(`.board__tasks`);
 
@@ -71,9 +69,9 @@ const renderBoard = (bordCompanent, tasks) => {
   });
 
   const loadMoreButtonComponent = new LoadMore();
-  render(bordCompanent.getElement(), loadMoreButtonComponent.getElement());
+  render(bordCompanent.getElement(), loadMoreButtonComponent);
 
-  loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
+  loadMoreButtonComponent.setClickHandler(() => {
     const prevTasksCount = showingTasksCount;
     showingTasksCount += SHOWING_TASKS_COUNT_BY_BUTTON;
 
@@ -82,8 +80,7 @@ const renderBoard = (bordCompanent, tasks) => {
     });
 
     if (showingTasksCount > tasks.length) {
-      loadMoreButtonComponent.getElement().remove();
-      loadMoreButtonComponent.removeElement();
+      remove(loadMoreButtonComponent);
     }
   });
 };
@@ -94,9 +91,9 @@ const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 const tasks = generateTasks(TASK_COUNT);
 const filters = generateFilters();
 
-render(siteHeaderElement, new SiteMenu().getElement());
-render(siteMainElement, new Filter(filters).getElement());
+render(siteHeaderElement, new SiteMenu());
+render(siteMainElement, new Filter(filters));
 
 const bordCompanent = new Board();
-render(siteMainElement, bordCompanent.getElement());
+render(siteMainElement, bordCompanent);
 renderBoard(bordCompanent, tasks);

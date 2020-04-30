@@ -1,5 +1,5 @@
 import {MONTH_NAMES} from '../../utils/const.js';
-import {formatTime, getRepeatClass} from '../../utils/utils.js';
+import {formatTime, getRepeatClass} from '../../utils/common.js';
 import AbstractComponent from '../abstract-component.js';
 
 export default class Task extends AbstractComponent {
@@ -13,6 +13,10 @@ export default class Task extends AbstractComponent {
     return dueDate instanceof Date && dueDate < Date.now()
       ? `card--deadline`
       : ``;
+  }
+
+  setEditButtonClickHandler(handler) {
+    this.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, handler);
   }
 
   getTemplate() {
