@@ -1,5 +1,5 @@
 import {MONTH_NAMES, DAYS, COLORS} from '../../utils/const.js';
-import {formatTime, getRepeatClass} from '../../utils/common.js';
+import {formatTime} from '../../utils/common.js';
 import AbstractComponent from '../abstract-component.js';
 
 
@@ -13,6 +13,12 @@ export default class TaskEdit extends AbstractComponent {
   _getDeadlineClass(dueDate) {
     return dueDate instanceof Date && dueDate < Date.now()
       ? `card--deadline`
+      : ``;
+  }
+
+  _getRepeatClass(repeatingDays) {
+    return Object.values(repeatingDays).some(Boolean)
+      ? `card--repeat`
       : ``;
   }
 
@@ -70,7 +76,7 @@ export default class TaskEdit extends AbstractComponent {
     const repeatingDaysMarkup = this._createRepeatingDaysMarkup(DAYS, repeatingDays);
 
     return (
-      `<article class="card card--edit card--${color} ${getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
+      `<article class="card card--edit card--${color} ${this._getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
         <form class="card__form" method="get">
           <div class="card__inner">
             <div class="card__color-bar">

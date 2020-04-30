@@ -1,5 +1,5 @@
 import {MONTH_NAMES} from '../../utils/const.js';
-import {formatTime, getRepeatClass} from '../../utils/common.js';
+import {formatTime} from '../../utils/common.js';
 import AbstractComponent from '../abstract-component.js';
 
 export default class Task extends AbstractComponent {
@@ -12,6 +12,12 @@ export default class Task extends AbstractComponent {
   _getDeadlineClass(dueDate) {
     return dueDate instanceof Date && dueDate < Date.now()
       ? `card--deadline`
+      : ``;
+  }
+
+  _getRepeatClass(repeatingDays) {
+    return Object.values(repeatingDays).some(Boolean)
+      ? `card--repeat`
       : ``;
   }
 
@@ -29,7 +35,7 @@ export default class Task extends AbstractComponent {
     const favoriteButtonInactiveClass = isFavorite ? `` : `card__btn--disabled`;
 
     return (
-      `<article class="card card--${color} ${getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
+      `<article class="card card--${color} ${this._getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
         <div class="card__form">
           <div class="card__inner">
             <div class="card__control">
