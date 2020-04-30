@@ -1,16 +1,28 @@
 import {MONTH_NAMES} from '../../utils/const.js';
-import {formatTime, createElement, getRepeatClass} from '../../utils/utils.js';
+import {formatTime} from '../../utils/common.js';
+import AbstractComponent from '../abstract-component.js';
 
-export default class Task {
+export default class Task extends AbstractComponent {
   constructor(task) {
+    super();
+
     this._task = task;
-    this._element = null;
   }
 
   _getDeadlineClass(dueDate) {
     return dueDate instanceof Date && dueDate < Date.now()
       ? `card--deadline`
       : ``;
+  }
+
+  _getRepeatClass(repeatingDays) {
+    return Object.values(repeatingDays).some(Boolean)
+      ? `card--repeat`
+      : ``;
+  }
+
+  setEditButtonClickHandler(handler) {
+    this.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, handler);
   }
 
   getTemplate() {
@@ -23,7 +35,7 @@ export default class Task {
     const favoriteButtonInactiveClass = isFavorite ? `` : `card__btn--disabled`;
 
     return (
-      `<article class="card card--${color} ${getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
+      `<article class="card card--${color} ${this._getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
         <div class="card__form">
           <div class="card__inner">
             <div class="card__control">
@@ -67,17 +79,5 @@ export default class Task {
         </div>
       </article>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

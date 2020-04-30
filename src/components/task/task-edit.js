@@ -1,15 +1,24 @@
 import {MONTH_NAMES, DAYS, COLORS} from '../../utils/const.js';
-import {formatTime, createElement, getRepeatClass} from '../../utils/utils.js';
+import {formatTime} from '../../utils/common.js';
+import AbstractComponent from '../abstract-component.js';
 
-export default class TaskEdit {
+
+export default class TaskEdit extends AbstractComponent {
   constructor(task) {
+    super();
+
     this._task = task;
-    this._element = null;
   }
 
   _getDeadlineClass(dueDate) {
     return dueDate instanceof Date && dueDate < Date.now()
       ? `card--deadline`
+      : ``;
+  }
+
+  _getRepeatClass(repeatingDays) {
+    return Object.values(repeatingDays).some(Boolean)
+      ? `card--repeat`
       : ``;
   }
 
@@ -52,6 +61,10 @@ export default class TaskEdit {
     }).join(`\n`);
   }
 
+  setSubmitHandler(handler) {
+    this.getElement().querySelector(`form`).addEventListener(`submit`, handler);
+  }
+
   getTemplate() {
     const {description, dueDate, color, repeatingDays} = this._task;
 
@@ -63,7 +76,7 @@ export default class TaskEdit {
     const repeatingDaysMarkup = this._createRepeatingDaysMarkup(DAYS, repeatingDays);
 
     return (
-      `<article class="card card--edit card--${color} ${getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
+      `<article class="card card--edit card--${color} ${this._getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
         <form class="card__form" method="get">
           <div class="card__inner">
             <div class="card__color-bar">
@@ -130,17 +143,5 @@ export default class TaskEdit {
         </form>
       </article>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
