@@ -1,10 +1,12 @@
 import {MONTH_NAMES} from '../../utils/const.js';
-import {formatTime, createElement, getRepeatClass} from '../../utils/utils.js';
+import {formatTime, getRepeatClass} from '../../utils/utils.js';
+import AbstractComponent from '../abstract-component.js';
 
-export default class Task {
+export default class Task extends AbstractComponent {
   constructor(task) {
+    super();
+
     this._task = task;
-    this._element = null;
   }
 
   _getDeadlineClass(dueDate) {
@@ -67,17 +69,5 @@ export default class Task {
         </div>
       </article>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

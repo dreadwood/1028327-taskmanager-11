@@ -1,4 +1,4 @@
-import {createElement} from '../../utils/utils.js';
+import AbstractComponent from '../abstract-component.js';
 
 const menuItems = new Map([
   [`new-task`, `+ ADD NEW TASK`],
@@ -6,11 +6,7 @@ const menuItems = new Map([
   [`statistic`, `STATISTICS`],
 ]);
 
-export default class SiteMenu {
-  constructor() {
-    this._element = null;
-  }
-
+export default class SiteMenu extends AbstractComponent {
   _createSiteMenuMarkup(menuItem) {
     const [type, name] = menuItem;
     return (
@@ -34,17 +30,5 @@ export default class SiteMenu {
         ${siteMenuMarkup()}
       </section>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

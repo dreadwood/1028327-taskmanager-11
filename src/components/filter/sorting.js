@@ -1,4 +1,4 @@
-import {createElement} from '../../utils/utils.js';
+import AbstractComponent from '../abstract-component.js';
 
 const sortTypes = new Map([
   [`default`, `SORT BY DEFAULT`],
@@ -6,11 +6,7 @@ const sortTypes = new Map([
   [`date-down`, `SORT BY DATE down`],
 ]);
 
-export default class sorting {
-  constructor() {
-    this._element = null;
-  }
-
+export default class Sorting extends AbstractComponent {
   _createSortingMarkup(sorting) {
     const [type, name] = sorting;
     return (
@@ -26,17 +22,5 @@ export default class sorting {
         ${sortingMarkup()}
       </div>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
