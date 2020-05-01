@@ -1,21 +1,47 @@
 import AbstractComponent from '../abstract-component.js';
 
-const sortTypes = new Map([
-  [`default`, `SORT BY DEFAULT`],
-  [`date-up`, `SORT BY DATE up`],
-  [`date-down`, `SORT BY DATE down`],
+const SortTypes = new Map([
+  [`SORT BY DEFAULT`, `default`],
+  [`SORT BY DATE up`, `date-up`],
+  [`SORT BY DATE down`, `date-down`],
 ]);
 
 export default class Sorting extends AbstractComponent {
+  constructor() {
+    super();
+
+    this._currenSortType = `default`;
+  }
   _createSortingMarkup(sorting) {
-    const [type, name] = sorting;
+    const [name, dataset] = sorting;
     return (
-      `<a href="#" class="board__filter" data-sort-type="${type}">${name}</a>`
+      `<a href="#" class="board__filter" data-sort-type="${dataset}">${name}</a>`
     );
   }
 
+  getSortType() {
+    return this._currenSortType;
+  }
+
+  setSortTypeChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
+      const sortType = evt.target.dataset.sortType;
+      if (this._currenSortType === sortType) {
+        return;
+      }
+
+      this._currenSortType = sortType;
+      handler(this._currenSortType);
+    });
+  }
+
   getTemplate() {
-    const sortingMarkup = () => [...sortTypes].map((it) => this._createSortingMarkup(it)).join(`\n`);
+    const sortingMarkup = () => [...SortTypes].map((it) => this._createSortingMarkup(it)).join(`\n`);
 
     return (
       `<div class="board__filter-list">
@@ -24,3 +50,5 @@ export default class Sorting extends AbstractComponent {
     );
   }
 }
+
+export {SortTypes};
