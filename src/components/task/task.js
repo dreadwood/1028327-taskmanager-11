@@ -1,5 +1,4 @@
-import {MONTH_NAMES} from '../../utils/const.js';
-import {formatTime} from '../../utils/common.js';
+import {formatTime, formatDate} from '../../utils/common.js';
 import AbstractComponent from '../abstract-component.js';
 
 export default class Task extends AbstractComponent {
@@ -13,8 +12,10 @@ export default class Task extends AbstractComponent {
     const {description, dueDate, color, repeatingDays} = this._task;
 
     const isDateShowing = !!dueDate;
-    const date = isDateShowing ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
+
+    const date = isDateShowing ? formatDate(dueDate) : ``;
     const time = isDateShowing ? formatTime(dueDate) : ``;
+
     const editButton = this._createButtonMarkup(`edit`);
     const archiveButton = this._createButtonMarkup(`archive`, !this._task.isArchive);
     const favoritesButton = this._createButtonMarkup(`favorites`, !this._task.isFavorite);
