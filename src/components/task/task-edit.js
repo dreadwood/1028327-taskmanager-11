@@ -1,6 +1,9 @@
-import {MONTH_NAMES, DAYS, COLORS} from '../../utils/const.js';
-import {formatTime} from '../../utils/common.js';
+import {DAYS, COLORS} from '../../utils/const.js';
+import {formatTime, formatDate} from '../../utils/common.js';
 import AbstractSmartComponent from '../abstract-smart-component.js';
+import flatpickr from 'flatpickr';
+
+import 'flatpickr/dist/flatpickr.min.css';
 
 export default class TaskEdit extends AbstractSmartComponent {
   constructor(task) {
@@ -10,8 +13,10 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._isDateShowing = !!task.dueDate;
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
+    this._flatpickr = null;
     this._submitHandler = null;
 
+    this._applyFlatpickr();
     this._subscribeOnEvents();
   }
 
@@ -20,10 +25,9 @@ export default class TaskEdit extends AbstractSmartComponent {
 
     const isBlockSaveButton = (this._isDateShowing && this._isRepeatingTask) || (this._isRepeatingTask && this._isRepeating(this._activeRepeatingDays));
 
-    const date = (this._isDateShowing && dueDate) ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
-    // const date = (this._isDateShowing && dueDate) ? formatDate(dueDate) : ``;
-
+    const date = (this._isDateShowing && dueDate) ? formatDate(dueDate) : ``;
     const time = (this._isDateShowing && dueDate) ? formatTime(dueDate) : ``;
+
     const colorsMarkup = this._createColorsMarkup(COLORS, color);
     const repeatingDaysMarkup = this._createRepeatingDaysMarkup(DAYS, this._activeRepeatingDays);
 
@@ -104,6 +108,8 @@ export default class TaskEdit extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
+
+    this._applyFlatpickr();
   }
 
   reset() {
@@ -114,6 +120,22 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
 
     this.rerender();
+  }
+
+  _applyFlatpickr() {
+    if (this._flatpickr) {
+      this._flatpickr.destroy();
+      this._flatpickr = null;
+    }
+
+    if (this._isDateShowing) {
+      const dataElement = this.getElement().querySelector(`.card__date`);
+      this._flatpickr = flatpickr(dataElement, {
+        altInput: true,
+        allowInput: true,
+        defaultDate: this._task.dueDate || `today`,
+      });
+    }
   }
 
   _subscribeOnEvents() {
