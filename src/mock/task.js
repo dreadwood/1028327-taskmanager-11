@@ -26,6 +26,7 @@ const generationTask = () => {
   const dueDate = Math.random() > 0.5 ? null : getRandomDate();
 
   return {
+    id: String(new Date() + Math.random()),
     description: getRandomArrayItems(TASK_DESCRIPTIONS),
     dueDate,
     color: getRandomArrayItems(COLORS),
