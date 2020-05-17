@@ -16,3 +16,12 @@ export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 //   `November`,
 //   `December`,
 // ];
+
+export const FilterType = {
+  ALL: `all`,
+  ARHIVE: `arhive`,
+  FAVORITES: `favorites`,
+  OVERDUE: `overdue`,
+  REPEATING: `repeating`,
+  TODAY: `today`,
+};

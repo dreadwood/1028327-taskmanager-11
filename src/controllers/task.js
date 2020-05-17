@@ -1,6 +1,6 @@
 import Task from '../components/task/task.js';
 import TaskEdit from '../components/task/task-edit.js';
-import {render, replace} from '../utils/render.js';
+import {render, replace, remove} from '../utils/render.js';
 
 const Mode = {
   DEFAULT: `default`,
@@ -65,6 +65,12 @@ export default class TaskController {
     if (this._mode !== Mode.DEFAULT) {
       this._replaceEditToTask();
     }
+  }
+
+  destroy() {
+    remove(this._taskEditComponent);
+    remove(this._taskComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   _replaceTaskToEdit() {
