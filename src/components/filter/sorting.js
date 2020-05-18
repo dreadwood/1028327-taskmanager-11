@@ -12,15 +12,26 @@ export default class Sorting extends AbstractComponent {
 
     this._currenSortType = `default`;
   }
+
+  getSortType() {
+    return this._currenSortType;
+  }
+
+  getTemplate() {
+    const sortingMarkup = () => [...SortTypes].map((it) => this._createSortingMarkup(it)).join(`\n`);
+
+    return (
+      `<div class="board__filter-list">
+        ${sortingMarkup()}
+      </div>`
+    );
+  }
+
   _createSortingMarkup(sorting) {
     const [name, dataset] = sorting;
     return (
       `<a href="#" class="board__filter" data-sort-type="${dataset}">${name}</a>`
     );
-  }
-
-  getSortType() {
-    return this._currenSortType;
   }
 
   setSortTypeChangeHandler(handler) {
@@ -38,16 +49,6 @@ export default class Sorting extends AbstractComponent {
       this._currenSortType = sortType;
       handler(this._currenSortType);
     });
-  }
-
-  getTemplate() {
-    const sortingMarkup = () => [...SortTypes].map((it) => this._createSortingMarkup(it)).join(`\n`);
-
-    return (
-      `<div class="board__filter-list">
-        ${sortingMarkup()}
-      </div>`
-    );
   }
 }
 

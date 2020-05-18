@@ -1,4 +1,4 @@
-import {formatTime, formatDate} from '../../utils/common.js';
+import {formatTime, formatDate, isOverdueDate} from '../../utils/common.js';
 import AbstractComponent from '../abstract-component.js';
 
 export default class Task extends AbstractComponent {
@@ -6,11 +6,14 @@ export default class Task extends AbstractComponent {
     super();
 
     this._task = task;
+    this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
   }
 
   getTemplate() {
     const {description, dueDate, color, repeatingDays} = this._task;
 
+    const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
+    const _isRepeatingTask = Object.values(repeatingDays).some(Boolean);
     const isDateShowing = !!dueDate;
 
     const date = isDateShowing ? formatDate(dueDate) : ``;
@@ -20,8 +23,11 @@ export default class Task extends AbstractComponent {
     const archiveButton = this._createButtonMarkup(`archive`, !this._task.isArchive);
     const favoritesButton = this._createButtonMarkup(`favorites`, !this._task.isFavorite);
 
+    const repeatClass = _isRepeatingTask ? `card--repeat` : ``;
+    const deadlineClass = isExpired ? `card--deadline` : ``;
+
     return (
-      `<article class="card card--${color} ${this._getRepeatClass(repeatingDays)} ${this._getDeadlineClass(dueDate)}">
+      `<article class="card card--${color} ${repeatClass} ${deadlineClass}">
         <div class="card__form">
           <div class="card__inner">
             <div class="card__control">
@@ -64,18 +70,6 @@ export default class Task extends AbstractComponent {
         ${name}
       </button>`
     );
-  }
-
-  _getDeadlineClass(dueDate) {
-    return dueDate instanceof Date && dueDate < Date.now()
-      ? `card--deadline`
-      : ``;
-  }
-
-  _getRepeatClass(repeatingDays) {
-    return Object.values(repeatingDays).some(Boolean)
-      ? `card--repeat`
-      : ``;
   }
 
   setEditButtonClickHandler(handler) {

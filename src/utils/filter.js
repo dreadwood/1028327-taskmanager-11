@@ -39,7 +39,7 @@ const getTasksByFilter = (tasks, filterType) => {
   switch (filterType) {
     case FilterType.ALL:
       return getNotArchiveTasks(tasks);
-    case FilterType.ARHIVE:
+    case FilterType.ARCHIVE:
       return getArhiveTasks(tasks);
     case FilterType.FAVORITES:
       return getFavoriteTasks(getNotArchiveTasks(tasks));

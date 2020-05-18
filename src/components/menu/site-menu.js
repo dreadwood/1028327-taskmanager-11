@@ -7,6 +7,16 @@ const menuItems = new Map([
 ]);
 
 export default class SiteMenu extends AbstractComponent {
+  getTemplate() {
+    const siteMenuMarkup = () => [...menuItems].map((it) => this._createSiteMenuMarkup(it)).join(`\n`);
+
+    return (
+      `<section class="control__btn-wrap">
+        ${siteMenuMarkup()}
+      </section>`
+    );
+  }
+
   _createSiteMenuMarkup(menuItem) {
     const [type, name] = menuItem;
     return (
@@ -19,16 +29,6 @@ export default class SiteMenu extends AbstractComponent {
       <label for="control__${type}" class="control__label ${type === `new-task` ? `control__label--new-task` : ``}">
         ${name}
       </label>`
-    );
-  }
-
-  getTemplate() {
-    const siteMenuMarkup = () => [...menuItems].map((it) => this._createSiteMenuMarkup(it)).join(`\n`);
-
-    return (
-      `<section class="control__btn-wrap">
-        ${siteMenuMarkup()}
-      </section>`
     );
   }
 }

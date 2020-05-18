@@ -1,5 +1,5 @@
 import {DAYS, COLORS} from '../../utils/const.js';
-import {formatTime, formatDate} from '../../utils/common.js';
+import {formatTime, formatDate, isRepeating, isOverdueDate} from '../../utils/common.js';
 import AbstractSmartComponent from '../abstract-smart-component.js';
 import flatpickr from 'flatpickr';
 
@@ -23,16 +23,20 @@ export default class TaskEdit extends AbstractSmartComponent {
   getTemplate() {
     const {description, dueDate, color} = this._task;
 
-    const isBlockSaveButton = (this._isDateShowing && this._isRepeatingTask) || (this._isRepeatingTask && this._isRepeating(this._activeRepeatingDays));
+    const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
+    const isBlockSaveButton = (this._isDateShowing && this._isRepeatingTask) || (this._isRepeatingTask && !isRepeating(this._activeRepeatingDays));
 
     const date = (this._isDateShowing && dueDate) ? formatDate(dueDate) : ``;
     const time = (this._isDateShowing && dueDate) ? formatTime(dueDate) : ``;
+
+    const repeatClass = this._isRepeatingTask ? `card--repeat` : ``;
+    const deadlineClass = isExpired ? `card--deadline` : ``;
 
     const colorsMarkup = this._createColorsMarkup(COLORS, color);
     const repeatingDaysMarkup = this._createRepeatingDaysMarkup(DAYS, this._activeRepeatingDays);
 
     return (
-      `<article class="card card--edit card--${color} ${this._getRepeatClass()} ${this._getDeadlineClass(dueDate)}">
+      `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
         <form class="card__form" method="get">
           <div class="card__inner">
             <div class="card__color-bar">
@@ -164,22 +168,6 @@ export default class TaskEdit extends AbstractSmartComponent {
         this.rerender();
       });
     }
-  }
-
-  _isRepeating(repeatingDays) {
-    return Object.values(repeatingDays).some(Boolean);
-  }
-
-  _getDeadlineClass(dueDate) {
-    return dueDate instanceof Date && dueDate < Date.now()
-      ? `card--deadline`
-      : ``;
-  }
-
-  _getRepeatClass() { // change class method
-    return this._isRepeatingTask
-      ? `card--repeat`
-      : ``;
   }
 
   _createColorsMarkup(colors, currentColor) {
