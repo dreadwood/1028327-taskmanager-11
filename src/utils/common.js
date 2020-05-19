@@ -1,19 +1,25 @@
 import moment from 'moment';
 
-// const castTimeFormat = (value) => {
-//   return value < 10 ? `0${value}` : `${value}`;
-// };
-
 const formatTime = (date) => {
-  // const hours = castTimeFormat(date.getHours() % 12);
-  // const minutes = castTimeFormat(date.getMinutes());
-
-  // return `${hours}:${minutes}`;
   return moment(date).format(`hh:mm`);
 };
 
 const formatDate = (date) => {
   return moment(date).format(`DD MMMM`);
+};
+
+const isRepeating = (repeatingDays) => {
+  return Object.values(repeatingDays).some(Boolean);
+};
+
+const isOneDay = (dateA, dateB) => {
+  const a = moment(dateA);
+  const b = moment(dateB);
+  return a.diff(b, `days`) === 0 && dateA.getDate() === dateB.getDate();
+};
+
+const isOverdueDate = (dueDate, date) => {
+  return dueDate < date && !isOneDay(date, dueDate);
 };
 
 const getRandomSign = () => Math.random() > 0.5 ? 1 : -1;
@@ -36,4 +42,4 @@ const getRandomDate = () => {
   return targetDate;
 };
 
-export {formatTime, formatDate, getRandomIntegerNumber, getRandomArrayItems, getRandomDate};
+export {formatTime, formatDate, getRandomIntegerNumber, getRandomArrayItems, getRandomDate, isRepeating, isOneDay, isOverdueDate};
