@@ -1,4 +1,4 @@
-const Color = {
+const COLOR = {
   BLACK: `black`,
   YELLOW: `yellow`,
   BLUE: `blue`,
@@ -6,7 +6,7 @@ const Color = {
   PINK: `pink`,
 };
 
-const COLORS = Object.values(Color);
+const COLORS = Object.values(COLOR);
 
 const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
@@ -34,4 +34,4 @@ const FilterType = {
   TODAY: `today`,
 };
 
-export {COLORS, DAYS, FilterType};
+export {COLOR, COLORS, DAYS, FilterType};
