@@ -2,6 +2,7 @@ import {DAYS, COLORS} from '../../utils/const.js';
 import {formatTime, formatDate, isRepeating, isOverdueDate} from '../../utils/common.js';
 import AbstractSmartComponent from '../abstract-smart-component.js';
 import flatpickr from 'flatpickr';
+import {encode} from "he";
 
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -28,10 +29,12 @@ export default class TaskEdit extends AbstractSmartComponent {
   getTemplate() {
     const {dueDate, color} = this._task;
 
+    const description = encode(this._currentDescription);
+
     const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
     const isBlockSaveButton = (this._isDateShowing && this._isRepeatingTask) ||
       (this._isRepeatingTask && !isRepeating(this._activeRepeatingDays)) ||
-      !this._isAllowableDescriptionLength(this._currentDescription);
+      !this._isAllowableDescriptionLength(description);
 
     const date = (this._isDateShowing && dueDate) ? formatDate(dueDate) : ``;
     const time = (this._isDateShowing && dueDate) ? formatTime(dueDate) : ``;
@@ -58,7 +61,7 @@ export default class TaskEdit extends AbstractSmartComponent {
                   class="card__text"
                   placeholder="Start typing your text here..."
                   name="text"
-                >${this._currentDescription}</textarea>
+                >${description}</textarea>
               </label>
             </div>
 

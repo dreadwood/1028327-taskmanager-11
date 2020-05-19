@@ -1,5 +1,6 @@
 import {formatTime, formatDate, isOverdueDate} from '../../utils/common.js';
 import AbstractComponent from '../abstract-component.js';
+import {encode} from "he";
 
 export default class Task extends AbstractComponent {
   constructor(task) {
@@ -10,7 +11,7 @@ export default class Task extends AbstractComponent {
   }
 
   getTemplate() {
-    const {description, dueDate, color, repeatingDays} = this._task;
+    const {description: notSanitizedDescription, dueDate, color, repeatingDays} = this._task;
 
     const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
     const _isRepeatingTask = Object.values(repeatingDays).some(Boolean);
@@ -18,6 +19,7 @@ export default class Task extends AbstractComponent {
 
     const date = isDateShowing ? formatDate(dueDate) : ``;
     const time = isDateShowing ? formatTime(dueDate) : ``;
+    const description = encode(notSanitizedDescription);
 
     const editButton = this._createButtonMarkup(`edit`);
     const archiveButton = this._createButtonMarkup(`archive`, !this._task.isArchive);
