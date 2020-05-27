@@ -1,4 +1,4 @@
-import AbstractComponent from '../abstract-component.js';
+import AbstractComponent from './abstract-component.js';
 
 const SortTypes = new Map([
   [`SORT BY DEFAULT`, `default`],
@@ -6,7 +6,7 @@ const SortTypes = new Map([
   [`SORT BY DATE down`, `date-down`],
 ]);
 
-export default class Sorting extends AbstractComponent {
+export default class SortingComponent extends AbstractComponent {
   constructor() {
     super();
 

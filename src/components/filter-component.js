@@ -1,8 +1,8 @@
-import AbstractComponent from '../abstract-component.js';
+import AbstractComponent from './abstract-component.js';
 
 const FILTER_ID_PREFIX = `filter__`;
 
-export default class Filter extends AbstractComponent {
+export default class FilterComponent extends AbstractComponent {
   constructor(filters) {
     super();
 

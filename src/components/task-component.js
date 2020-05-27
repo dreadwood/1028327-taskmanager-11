@@ -1,8 +1,8 @@
-import {formatTime, formatDate, isOverdueDate} from '../../utils/common.js';
-import AbstractComponent from '../abstract-component.js';
+import AbstractComponent from './abstract-component.js';
+import {formatTime, formatDate, isOverdueDate} from '../utils/common.js';
 import {encode} from "he";
 
-export default class Task extends AbstractComponent {
+export default class TaskComponent extends AbstractComponent {
   constructor(task) {
     super();
 

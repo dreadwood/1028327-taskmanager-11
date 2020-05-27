@@ -1,6 +1,6 @@
-import {DAYS, COLORS} from '../../utils/const.js';
-import {formatTime, formatDate, isRepeating, isOverdueDate} from '../../utils/common.js';
-import AbstractSmartComponent from '../abstract-smart-component.js';
+import {DAYS, COLORS} from '../utils/const.js';
+import {formatTime, formatDate, isRepeating, isOverdueDate} from '../utils/common.js';
+import AbstractSmartComponent from './abstract-smart-component.js';
 import flatpickr from 'flatpickr';
 import {encode} from "he";
 
@@ -9,7 +9,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 140;
 
-export default class TaskEdit extends AbstractSmartComponent {
+export default class TaskEditComponent extends AbstractSmartComponent {
   constructor(task) {
     super();
 
@@ -149,9 +149,8 @@ export default class TaskEdit extends AbstractSmartComponent {
 
   getData() {
     const form = this.getElement().querySelector(`.card__form`);
-    const formData = new FormData(form);
 
-    return this._parseFormData(formData);
+    return new FormData(form);
   }
 
   _applyFlatpickr() {
@@ -242,24 +241,6 @@ export default class TaskEdit extends AbstractSmartComponent {
         >`
       );
     }).join(`\n`);
-  }
-
-  _parseFormData(formData) {
-    const repeatingDays = DAYS.reduce((acc, day) => {
-      acc[day] = false;
-      return acc;
-    }, {});
-    const date = formData.get(`date`);
-
-    return {
-      description: formData.get(`text`),
-      color: formData.get(`color`),
-      dueDate: date ? new Date(date) : null,
-      repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
-        acc[it] = true;
-        return acc;
-      }, repeatingDays),
-    };
   }
 
   _isAllowableDescriptionLength(description) {
