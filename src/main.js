@@ -7,6 +7,8 @@ import FilterController from './controllers/filter.js';
 import TasksModel from './models/tasks.js';
 import {render} from './utils/render.js';
 
+const AUTHORIZATION = `Basic fo0w59RT0i5sGd8g6ka`;
+
 const dateTo = new Date();
 const dateFrom = (() => {
   const d = new Date(dateTo);
@@ -14,7 +16,7 @@ const dateFrom = (() => {
   return d;
 })();
 
-const api = new API();
+const api = new API(AUTHORIZATION);
 const tasksModel = new TasksModel();
 
 const siteMainElement = document.querySelector(`.main`);
