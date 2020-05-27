@@ -9,11 +9,27 @@ export default class TaskModel {
     this.isArchive = Boolean(data[`is_archive`]);
   }
 
+  toRAW() {
+    return {
+      "id": this.id,
+      "description": this.description,
+      "due_date": this.dueDate ? this.dueDate.toISOString() : null,
+      "repeating_days": this.repeatingDays,
+      "color": this.color,
+      "is_favorite": this.isFavorite,
+      "is_archive": this.isArchive,
+    };
+  }
+
   static parseTask(data) {
     return new TaskModel(data);
   }
 
   static parseTasks(data) {
     return data.map(TaskModel.parseTask);
+  }
+
+  static clone(data) {
+    return new TaskModel(data.toRAW());
   }
 }
