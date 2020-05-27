@@ -1,4 +1,4 @@
-import AbstractComponent from '../abstract-component.js';
+import AbstractComponent from './abstract-component.js';
 
 const menuItems = new Map([
   [`new-task`, `+ ADD NEW TASK`],
@@ -12,7 +12,7 @@ const MenuItem = {
   TASKS: `control__task`,
 };
 
-export default class SiteMenu extends AbstractComponent {
+export default class SiteMenuComponent extends AbstractComponent {
   getTemplate() {
     const siteMenuMarkup = () => [...menuItems].map((it) => this._createSiteMenuMarkup(it)).join(`\n`);
 

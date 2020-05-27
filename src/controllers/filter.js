@@ -1,7 +1,7 @@
-import Filter from '../components/filter/filter';
-import {FilterType} from '../utils/const';
-import {render, replace} from '../utils/render';
-import {getTasksByFilter} from '../utils/filter';
+import FilterComponent from '../components/filter-component.js';
+import {FilterType} from '../utils/const.js';
+import {getTasksByFilter} from '../utils/filter.js';
+import {render, replace} from '../utils/render.js';
 
 export default class FilterController {
   constructor(container, tasksModel) {
@@ -29,7 +29,7 @@ export default class FilterController {
     });
     const oldComponent = this._filterComponent;
 
-    this._filterComponent = new Filter(filters);
+    this._filterComponent = new FilterComponent(filters);
     this._filterComponent.setFilterChangeHandler(this._onFilterChange);
 
     if (oldComponent) {

@@ -1,9 +1,9 @@
-import AbstractSmartComponent from '../abstract-smart-component.js';
-import {isOneDay} from '../../utils/common.js';
+import AbstractSmartComponent from './abstract-smart-component.js';
+import {isOneDay} from '../utils/common.js';
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import moment from 'moment';
 import flatpickr from 'flatpickr';
+import moment from 'moment';
 
 const colorToHex = {
   black: `#000000`,
@@ -13,7 +13,7 @@ const colorToHex = {
   yellow: `#ffe125`,
 };
 
-export default class Statistics extends AbstractSmartComponent {
+export default class StatisticsComponent extends AbstractSmartComponent {
   constructor(tasks, dateFrom, dateTo) {
     super();
 

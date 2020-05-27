@@ -1,6 +1,6 @@
-import {DAYS, COLORS} from '../../utils/const.js';
-import {formatTime, formatDate, isRepeating, isOverdueDate} from '../../utils/common.js';
-import AbstractSmartComponent from '../abstract-smart-component.js';
+import {DAYS, COLORS} from '../utils/const.js';
+import {formatTime, formatDate, isRepeating, isOverdueDate} from '../utils/common.js';
+import AbstractSmartComponent from './abstract-smart-component.js';
 import flatpickr from 'flatpickr';
 import {encode} from "he";
 
@@ -9,7 +9,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 140;
 
-export default class TaskEdit extends AbstractSmartComponent {
+export default class TaskEditComponent extends AbstractSmartComponent {
   constructor(task) {
     super();
 

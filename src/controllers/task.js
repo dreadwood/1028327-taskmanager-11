@@ -1,5 +1,5 @@
-import Task from '../components/task/task.js';
-import TaskEdit from '../components/task/task-edit.js';
+import TaskEdit from '../components/task-edit-component.js';
+import TaskComponent from '../components/task-component.js';
 import {render, replace, remove, RenderPosition} from '../utils/render.js';
 import {COLOR} from '../utils/const.js';
 
@@ -45,7 +45,7 @@ export default class TaskController {
     const oldTaskEditComponent = this._taskEditComponent;
     this._mode = mode;
 
-    this._taskComponent = new Task(task);
+    this._taskComponent = new TaskComponent(task);
     this._taskEditComponent = new TaskEdit(task);
 
     this._taskComponent.setEditButtonClickHandler((evt) => {
