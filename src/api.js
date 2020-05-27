@@ -24,7 +24,7 @@ export default class API {
   getTasks() {
     return this._load({url: `tasks`})
     .then((response) => response.json())
-    .then(TaskModel.parseTask);
+    .then(TaskModel.parseTasks);
   }
 
   updateTask(id, data) {
