@@ -4,6 +4,8 @@ import TaskModel from '../models/task-model.js';
 import {render, replace, remove, RenderPosition} from '../utils/render.js';
 import {COLOR, DAYS} from '../utils/const.js';
 
+const SHAKE_ANIMATION_TIMEOUT = 600;
+
 const TaskControllerMode = {
   ADDING: `adding`,
   DEFAULT: `default`,
@@ -28,21 +30,23 @@ const EmptyTask = {
 };
 
 const parseFormData = (formData) => {
+  const date = formData.get(`date`);
   const repeatingDays = DAYS.reduce((acc, day) => {
     acc[day] = false;
     return acc;
   }, {});
-  const date = formData.get(`date`);
 
-  return {
-    description: formData.get(`text`),
-    color: formData.get(`color`),
-    dueDate: date ? new Date(date) : null,
-    repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
+  return new TaskModel({
+    "description": formData.get(`text`),
+    "due_date": date ? new Date(date) : null,
+    "repeating_days": formData.getAll(`repeat`).reduce((acc, it) => {
       acc[it] = true;
       return acc;
     }, repeatingDays),
-  };
+    "color": formData.get(`color`),
+    "is_favorite": false,
+    "is_done": false,
+  });
 };
 
 export default class TaskController {
@@ -97,9 +101,20 @@ export default class TaskController {
       const formData = this._taskEditComponent.getData();
       const data = parseFormData(formData);
 
+      this._taskEditComponent.setData({
+        saveButtonText: `Saving...`,
+      });
+
       this._onDataChange(this, task, data);
     });
-    this._taskEditComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
+
+    this._taskEditComponent.setDeleteButtonClickHandler(() => {
+      this._taskEditComponent.setData({
+        deleteButtonText: `Deleting...`,
+      });
+
+      this._onDataChange(this, task, null);
+    });
 
     switch (mode) {
       case TaskControllerMode.DEFAULT:
@@ -132,6 +147,21 @@ export default class TaskController {
     remove(this._taskEditComponent);
     remove(this._taskComponent);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  shake() {
+    this._taskEditComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._taskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this._taskEditComponent.getElement().style.animation = ``;
+      this._taskComponent.getElement().style.animation = ``;
+
+      this._taskEditComponent.setData({
+        saveButtonText: `Save`,
+        deleteButtonText: `Delete`,
+      });
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 
   _replaceTaskToEdit() {

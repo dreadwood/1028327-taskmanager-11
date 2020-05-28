@@ -6,7 +6,7 @@ export default class TaskModel {
     this.repeatingDays = data[`repeating_days`];
     this.color = data[`color`];
     this.isFavorite = Boolean(data[`is_favorite`]);
-    this.isArchive = Boolean(data[`is_archive`]);
+    this.isArchive = Boolean(data[`is_archived`]);
   }
 
   toRAW() {
@@ -17,7 +17,7 @@ export default class TaskModel {
       "repeating_days": this.repeatingDays,
       "color": this.color,
       "is_favorite": this.isFavorite,
-      "is_archive": this.isArchive,
+      "is_archived": this.isArchive,
     };
   }
 

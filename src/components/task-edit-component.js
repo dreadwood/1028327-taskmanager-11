@@ -9,6 +9,11 @@ import 'flatpickr/dist/flatpickr.min.css';
 const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 140;
 
+const DefaultData = {
+  deleteButtonText: `Delete`,
+  saveButtonText: `Save`,
+};
+
 export default class TaskEditComponent extends AbstractSmartComponent {
   constructor(task) {
     super();
@@ -18,6 +23,7 @@ export default class TaskEditComponent extends AbstractSmartComponent {
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
     this._currentDescription = task.description;
+    this._externalData = DefaultData;
     this._flatpickr = null;
     this._submitHandler = null;
     this._deleteButtonClickHandler = null;
@@ -44,6 +50,9 @@ export default class TaskEditComponent extends AbstractSmartComponent {
 
     const colorsMarkup = this._createColorsMarkup(COLORS, color);
     const repeatingDaysMarkup = this._createRepeatingDaysMarkup(DAYS, this._activeRepeatingDays);
+
+    const deleteButtonText = this._externalData.deleteButtonText;
+    const saveButtonText = this._externalData.saveButtonText;
 
     return (
       `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
@@ -106,8 +115,8 @@ export default class TaskEditComponent extends AbstractSmartComponent {
             </div>
 
             <div class="card__status-btns">
-              <button class="card__save" type="submit" ${isBlockSaveButton ? `disabled` : ``}>save</button>
-              <button class="card__delete" type="button">delete</button>
+              <button class="card__save" type="submit" ${isBlockSaveButton ? `disabled` : ``}>${saveButtonText}</button>
+              <button class="card__delete" type="button">${deleteButtonText}</button>
             </div>
           </div>
         </form>
@@ -151,6 +160,11 @@ export default class TaskEditComponent extends AbstractSmartComponent {
     const form = this.getElement().querySelector(`.card__form`);
 
     return new FormData(form);
+  }
+
+  setData(data) {
+    this._externalData = Object.assign({}, DefaultData, data);
+    this.rerender();
   }
 
   _applyFlatpickr() {

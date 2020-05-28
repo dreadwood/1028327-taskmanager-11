@@ -22,20 +22,40 @@ export default class API {
   }
 
   getTasks() {
-    return this._load({url: `tasks`})
+    return this._load({
+      url: `tasks`
+    })
     .then((response) => response.json())
     .then(TaskModel.parseTasks);
   }
 
-  updateTask(id, data) {
+  createTask(task) {
     return this._load({
-      url: `tasks/${id}`,
-      method: Method.PUT,
-      body: JSON.stringify(data.toRAW()),
+      url: `tasks`,
+      method: Method.POST,
+      body: JSON.stringify(task.toRAW()),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then((response) => response.json())
       .then(TaskModel.parseTask);
+  }
+
+  updateTask(id, task) {
+    return this._load({
+      url: `tasks/${id}`,
+      method: Method.PUT,
+      body: JSON.stringify(task.toRAW()),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json())
+      .then(TaskModel.parseTask);
+  }
+
+  deleteTask(id) {
+    return this._load({
+      url: `tasks/${id}`,
+      method: Method.DELETE,
+    });
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
