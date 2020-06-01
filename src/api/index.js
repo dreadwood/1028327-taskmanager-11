@@ -1,4 +1,4 @@
-import TaskModel from './models/task-model.js';
+import TaskModel from '../models/task-model.js';
 
 const Method = {
   GET: `GET`,
@@ -56,6 +56,16 @@ export default class API {
       url: `tasks/${id}`,
       method: Method.DELETE,
     });
+  }
+
+  sync(data) {
+    return this._load({
+      url: `tasks/sync`,
+      method: Method.POST,
+      body: JSON.stringify(data),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json());
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
